@@ -1,3 +1,7 @@
 default['system']['packages'] = %w{
-git ruby ssh
+ruby-dev build-essential ssh
+}
+
+default['mysql']['packages'] = %w{
+mysql-server libmysqlclient-dev libdbd-mysql-ruby
 }
