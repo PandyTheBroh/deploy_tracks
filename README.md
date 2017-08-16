@@ -2,7 +2,7 @@
 A Chef's cookbook repository for a DevOps job test
 
 # Summary
-This cookbook will help you to deploy the Ruby on Rails application [Tracks](http://www.getontracks.org/) behind a nginx reverse proxy (**COMMING SOON**).
+This cookbook will help you to deploy the Ruby on Rails application [Tracks](http://www.getontracks.org/) behind a nginx reverse proxy.
 
 # Compatibility
 This cookbook only have been tested under a Ubuntu 14.04 LTS node. Maybe it could works on other versions, but I can't guarantee it.
@@ -14,7 +14,7 @@ This cookbook has the next dependencies:
 
 To satisfice this dependencies, you can add this cookbooks in the run_list of your node or run `berks install` to download them from Supermarket into the cache.
 
-# Versions
+# Versions of development
 * Chef Development Kit Version: 2.0.28
 * chef-client version: 13.2.20
 * berks version: 6.2.0

@@ -3,23 +3,29 @@ tar_extract 'https://github.com/TracksApp/tracks/archive/v2.3.0.tar.gz' do
   creates '/var/lib/tracks-2.3.0'
 end
 
-template '/var/lib/tracks-2.3.0/config/database.yml' do
-  source 'database.yml.erb'
-end
-
-template '/var/lib/tracks-2.3.0/config/site.yml' do
-  source 'site.yml.erb'
+execute 'bundle_install' do
+  cwd '/var/lib/tracks-2.3.0'
+  command 'bundle install --without development test'
+  action :nothing
 end
 
 template '/var/lib/tracks-2.3.0/Gemfile' do
   source 'gemfile.erb'
+  notifies :run, 'execute[bundle_install]', :immediately
 end
 
-gem_package 'bundler'
+cookbook_file '/var/lib/tracks-2.3.0/config/database.yml'
 
-execute 'bundle_install' do
-  cwd '/var/lib/tracks-2.3.0'
-  command 'bundle install --without development test'
+cookbook_file '/var/lib/tracks-2.3.0/config/site.yml'
+
+execute 'tracks_owner' do
+  cwd '/var/lib'
+  command 'sudo chown -R www-data:root /var/lib/tracks-2.3.0'
+end
+
+execute 'tracks_permissions' do
+  cwd '/var/lib'
+  command 'sudo chmod -R 700 /var/lib/tracks-2.3.0'
 end
 
 execute 'rake_db' do
@@ -32,7 +38,6 @@ execute 'precompile_assets' do
   command 'bundle exec rake assets:precompile RAILS_ENV=production'
 end
 
-execute 'tracks' do
-  cwd '/var/lib/tracks-2.3.0'
-  command 'bundle exec rails server -e production -d'
-end
+cookbook_file '/var/lib/tracks-2.3.0/tracks.god'
+
+execute 'god -c /var/lib/tracks-2.3.0/tracks.god'
