@@ -3,8 +3,8 @@ driver:
   name: dokken
   chef_version: current
   ports:
-    - '3000:3001'
-    - '80:8080'
+    - '3001:3000'
+    - '8080:80'
 
 transport:
   name: dokken
